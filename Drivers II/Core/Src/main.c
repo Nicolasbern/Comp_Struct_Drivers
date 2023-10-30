@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ring_buffer.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,7 +60,10 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+int _write(int file, char *ptr, int len){
+	HAL_UART_Transmit(&huart2, (uint8_t*)ptr, len, HAL_MAX_DELAY);
+	return len;
+}
 /* USER CODE END 0 */
 
 /**
@@ -68,6 +72,7 @@ static void MX_USART2_UART_Init(void);
   */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+	ring_buffer_put(&ring_buffer_uart_rx, rx_data);
 	HAL_UART_Receive_IT(&huart2, &rx_data, 1);
 }
 int main(void)
@@ -105,6 +110,19 @@ HAL_UART_Receive_IT(&huart2, &rx_data, 1);
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	 uint16_t size = ring_buffer_size(&ring_buffer_uart_rx);
+	 if (size != 0) {
+		 uint8_t rx_array[size + 1];
+		 for (uint16_t idx = 0; idx < size; idx++) {
+			 uint8_t rx_val = 50;
+			 ring_buffer_get(&ring_buffer_uart_rx, &rx_array[idx]);
+		 }
+		 rx_array[size] = 0;
+		 printf("Rec: %s\r\n", rx_array);
+	 }
+	 HAL_Delay(1000);
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
