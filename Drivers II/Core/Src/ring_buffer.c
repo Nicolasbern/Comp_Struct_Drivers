@@ -41,7 +41,7 @@ uint8_t ring_buffer_get(ring_buffer_t *ring_buffer, uint8_t *data)
 	return 0;
 }
 
-uint8_t ring_buffer_size(ring_buffer_t * ring_buffer)
+uint16_t ring_buffer_size(ring_buffer_t * ring_buffer)
 {
 	uint16_t size = 0;
 
