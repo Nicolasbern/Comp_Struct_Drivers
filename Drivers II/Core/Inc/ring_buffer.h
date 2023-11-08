@@ -2,7 +2,7 @@
  * ring_buffer.h
  *
  *  Created on: Oct 23, 2023
- *      Author: valer
+ *      Author: saaci
  */
 
 #ifndef INC_RING_BUFFER_H_
@@ -11,20 +11,21 @@
 #include <stdint.h>
 
 typedef struct {
-	uint8_t *buffer;	//the * means is a pointer, to memory location
-	uint16_t head;		//to write new data
-	uint16_t tail;		//to read old data
+	uint8_t  *buffer;  /*!\ Pointer to memory location */
+	uint16_t head;     /*!\ To write new data */
+	uint16_t tail;     /*!\ To read old data */
 
 	uint16_t capacity;
-	uint8_t is_full;
+	uint8_t  is_full;
 
-} ring_buffer_t; 		// the "_t" refers to type
+} ring_buffer_t;
+
 
 void ring_buffer_init(ring_buffer_t *ring_buffer, uint8_t *buffer, uint16_t capacity);
 
-uint8_t ring_buffer_put(ring_buffer_t *ring_buffer,uint8_t data);
+uint8_t ring_buffer_put(ring_buffer_t *ring_buffer, uint8_t data);
 
-uint8_t ring_buffer_get(ring_buffer_t *ring_buffer,uint8_t *data);
+uint8_t ring_buffer_get(ring_buffer_t *ring_buffer, uint8_t *data);
 
 uint16_t ring_buffer_size(ring_buffer_t *ring_buffer);
 
