@@ -162,9 +162,112 @@ uint8_t keypad_handler(uint16_t column_to_evaluate)
 	  break;
 
 	case COLUMN_2_Pin:
-		/*!\ TODO: Implement validation for column 2 here */
-		break;
+		ROW_1_GPIO_Port->BSRR = ROW_1_Pin; // turn on row 1
+		ROW_2_GPIO_Port->BRR = ROW_2_Pin;  // turn off row 2
+		ROW_3_GPIO_Port->BRR = ROW_3_Pin;  // turn off row 3
+		ROW_4_GPIO_Port->BRR = ROW_4_Pin;  // turn off row 4
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_2_GPIO_Port->IDR & COLUMN_2_Pin) {
+			key_pressed = 0x02; // if column 1 is still high -> column 1 + row 1 = key 1
+			break;
+		}
 
+		ROW_1_GPIO_Port->BRR = ROW_1_Pin; 	// turn off row 1
+		ROW_2_GPIO_Port->BSRR = ROW_2_Pin; 	// turn on row 2
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_2_GPIO_Port->IDR & COLUMN_2_Pin) {
+			key_pressed = 0x05; // if column 1 is still high -> column 1 + row 2 = key 4
+			break;
+		}
+
+		ROW_2_GPIO_Port->BRR = ROW_2_Pin; 	// turn off row 2
+		ROW_3_GPIO_Port->BSRR = ROW_3_Pin; 	// turn on row 3
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_2_GPIO_Port->IDR & COLUMN_2_Pin) {
+			key_pressed = 0x08; // if column 1 is still high -> column 1 + row 3 = key 7
+			break;
+		}
+
+		ROW_3_GPIO_Port->BRR = ROW_3_Pin;	// turn off row 3
+		ROW_4_GPIO_Port->BSRR = ROW_4_Pin; 	// turn on row 4
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_2_GPIO_Port->IDR & COLUMN_2_Pin) {
+			key_pressed = 0x00; // if column 1 is still high -> column 1 + row 4 = key *
+			break;
+		}
+	  break;
+
+	case COLUMN_3_Pin:
+		ROW_1_GPIO_Port->BSRR = ROW_1_Pin; // turn on row 1
+		ROW_2_GPIO_Port->BRR = ROW_2_Pin;  // turn off row 2
+		ROW_3_GPIO_Port->BRR = ROW_3_Pin;  // turn off row 3
+		ROW_4_GPIO_Port->BRR = ROW_4_Pin;  // turn off row 4
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_3_GPIO_Port->IDR & COLUMN_3_Pin) {
+			key_pressed = 0x03; // if column 1 is still high -> column 1 + row 1 = key 1
+			break;
+		}
+
+		ROW_1_GPIO_Port->BRR = ROW_1_Pin; 	// turn off row 1
+		ROW_2_GPIO_Port->BSRR = ROW_2_Pin; 	// turn on row 2
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_3_GPIO_Port->IDR & COLUMN_3_Pin) {
+			key_pressed = 0x06; // if column 1 is still high -> column 1 + row 2 = key 4
+			break;
+		}
+
+		ROW_2_GPIO_Port->BRR = ROW_2_Pin; 	// turn off row 2
+		ROW_3_GPIO_Port->BSRR = ROW_3_Pin; 	// turn on row 3
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_3_GPIO_Port->IDR & COLUMN_3_Pin) {
+			key_pressed = 0x09; // if column 1 is still high -> column 1 + row 3 = key 7
+			break;
+		}
+
+		ROW_3_GPIO_Port->BRR = ROW_3_Pin;	// turn off row 3
+		ROW_4_GPIO_Port->BSRR = ROW_4_Pin; 	// turn on row 4
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_3_GPIO_Port->IDR & COLUMN_3_Pin) {
+			key_pressed = 0x0F; // if column 1 is still high -> column 1 + row 4 = key *
+			break;
+		}
+	  break;
+
+	case COLUMN_4_Pin:
+		ROW_1_GPIO_Port->BSRR = ROW_1_Pin; // turn on row 1
+		ROW_2_GPIO_Port->BRR = ROW_2_Pin;  // turn off row 2
+		ROW_3_GPIO_Port->BRR = ROW_3_Pin;  // turn off row 3
+		ROW_4_GPIO_Port->BRR = ROW_4_Pin;  // turn off row 4
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_4_GPIO_Port->IDR & COLUMN_4_Pin) {
+			key_pressed = 0x0A; // if column 1 is still high -> column 1 + row 1 = key 1
+			break;
+		}
+
+		ROW_1_GPIO_Port->BRR = ROW_1_Pin; 	// turn off row 1
+		ROW_2_GPIO_Port->BSRR = ROW_2_Pin; 	// turn on row 2
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_4_GPIO_Port->IDR & COLUMN_4_Pin) {
+			key_pressed = 0x0B; // if column 1 is still high -> column 1 + row 2 = key 4
+			break;
+		}
+
+		ROW_2_GPIO_Port->BRR = ROW_2_Pin; 	// turn off row 2
+		ROW_3_GPIO_Port->BSRR = ROW_3_Pin; 	// turn on row 3
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_4_GPIO_Port->IDR & COLUMN_4_Pin) {
+			key_pressed = 0x0C; // if column 1 is still high -> column 1 + row 3 = key 7
+			break;
+		}
+
+		ROW_3_GPIO_Port->BRR = ROW_3_Pin;	// turn off row 3
+		ROW_4_GPIO_Port->BSRR = ROW_4_Pin; 	// turn on row 4
+		HAL_Delay(2); // wait for voltage to establish
+		if (COLUMN_4_GPIO_Port->IDR & COLUMN_4_Pin) {
+			key_pressed = 0x0D; // if column 1 is still high -> column 1 + row 4 = key *
+			break;
+		}
+	  break;
 	/*!\ TODO: Implement other column cases here */
 
 	default:
