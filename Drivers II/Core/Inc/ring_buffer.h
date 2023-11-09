@@ -2,7 +2,7 @@
  * ring_buffer.h
  *
  *  Created on: Oct 23, 2023
- *      Author: saaci
+ *      Author:
  */
 
 #ifndef INC_RING_BUFFER_H_
