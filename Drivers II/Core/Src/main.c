@@ -54,7 +54,6 @@ uint8_t rx_buffer[16];
 ring_buffer_t ring_buffer_uart_rx;
 uint16_t key_event = 0xFF;
 uint8_t rx_data;
-ring_buffer_t ring_buffer_keypad;
 uint8_t count = 0;
 uint16_t memory[5];
 
@@ -338,12 +337,21 @@ int main(void)
 	 		  			  ssd1306_UpdateScreen();
 	 		  		  	  	  }
 	 		  	  	  }
+	 		  	  // si la quinta pulsación no es el # se marca error y requeire resetear.
+	 		  	  if (count == 5 && memory[4] != 0x0F ){
+	 		  		ssd1306_Init();
+	 		  		ssd1306_Fill(Black);
+	 		  		ssd1306_SetCursor(10, 20);
+	 		  		ssd1306_WriteString("Error - resetear ", Font_7x10, White);
+	 		  		ssd1306_UpdateScreen();
+	 		  	  }
 	 		  	  // Una vez ingresados los datos de y se a verificado si es correcta o no la key presione  '*' para ingresar nuevamente una key.
 	 		  	  if (key_pressed == 0x0E){
 	 		  		  for (uint8_t i = 0; i < 5 ; i++){
 	 		  			  memory[i]= 0;
 	 		  			  count = 0;
 	 		  		  }
+	 		  		  //mostrar en la pantalla que se ingrese la key.
 	 		  		  ssd1306_Init();
 	 		  		  ssd1306_Fill(Black);
 	 		  		  ssd1306_SetCursor(20, 20);
